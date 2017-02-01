@@ -1,0 +1,12 @@
+c:\Projects\hackaton\TestBot\TestBot\bin\Debug\TestBot.exe.config
+c:\Projects\hackaton\TestBot\TestBot\bin\Debug\TestBot.exe
+c:\Projects\hackaton\TestBot\TestBot\bin\Debug\TestBot.pdb
+c:\Projects\hackaton\TestBot\TestBot\bin\Debug\Newtonsoft.Json.dll
+c:\Projects\hackaton\TestBot\TestBot\bin\Debug\System.Net.Http.Formatting.dll
+c:\Projects\hackaton\TestBot\TestBot\bin\Debug\Telegram.Bot.dll
+c:\Projects\hackaton\TestBot\TestBot\bin\Debug\Newtonsoft.Json.xml
+c:\Projects\hackaton\TestBot\TestBot\bin\Debug\System.Net.Http.Formatting.xml
+c:\Projects\hackaton\TestBot\TestBot\bin\Debug\Telegram.Bot.xml
+c:\Projects\hackaton\TestBot\TestBot\obj\Debug\TestBot.csprojResolveAssemblyReference.cache
+c:\Projects\hackaton\TestBot\TestBot\obj\Debug\TestBot.exe
+c:\Projects\hackaton\TestBot\TestBot\obj\Debug\TestBot.pdb
