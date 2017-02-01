@@ -14,7 +14,7 @@ namespace TestBot
 {
     class Program
     {
-        private static readonly TelegramBotClient Bot = new TelegramBotClient("200554092:AAF6KSlbqp3yXsGBtxaC3r0bNRlEa6kVzb4");
+        private static readonly TelegramBotClient Bot = new TelegramBotClient("");
 
         private static Dictionary<long, string> users = new Dictionary<long, string>();
 
