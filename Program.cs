@@ -14,7 +14,7 @@ namespace TestBot
 {
     class Program
     {
-        private static readonly TelegramBotClient Bot = new TelegramBotClient("");
+        private static readonly TelegramBotClient Bot = new TelegramBotClient("200554092:AAHLRLTXqNyIhDvs9zO18F1nU4gJHMysN2o");
 
         private static Dictionary<long, string> users = new Dictionary<long, string>();
 
@@ -42,7 +42,6 @@ namespace TestBot
 
         private static async void TimerOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
         {
-            Console.WriteLine("Translation finished.");
             var keyboard = new InlineKeyboardMarkup(new[]
                 {
                     new[] // first row
@@ -51,11 +50,11 @@ namespace TestBot
                         new InlineKeyboardButton("Share"),
                     }
                 });
-
+            var message = @"Successfull published!
+http://sdl.com";
             foreach (var user in users)
             {
-                await Bot.SendTextMessageAsync(user.Key, "Successfull published!",
-                    replyMarkup: keyboard);
+                await Bot.SendTextMessageAsync(user.Key, message, replyMarkup: keyboard);
             }
         }
 
@@ -82,18 +81,26 @@ namespace TestBot
             if (message.Text.StartsWith("/subscribe")) // send inline keyboard
             {
                 users.Add(message.Chat.Id, message.Chat.FirstName);
-
                 await Bot.SendChatActionAsync(message.Chat.Id, ChatAction.Typing);
-
                 await Bot.SendTextMessageAsync(message.Chat.Id, "Successfully subscribed");
+            }
+            else if (message.Text.StartsWith("/unsubscribe")) // send inline keyboard
+            {
+                users.Remove(message.Chat.Id);
+                await Bot.SendChatActionAsync(message.Chat.Id, ChatAction.Typing);
+                await Bot.SendTextMessageAsync(message.Chat.Id, "Successfully unsubscribed");
+            }
+            else if (message.Text.StartsWith("/me")) // send inline keyboard
+            {
+                await Bot.SendTextMessageAsync(message.Chat.Id, $"Hello, {message.Chat.FirstName} {message.Chat.LastName}");
+                await Bot.SendPhotoAsync(message.Chat.Id, new FileToSend(new Uri("https://pbs.twimg.com/profile_images/798921508794101761/VVkwVVxm_400x400.jpg")));
             }
             else
             {
                 var usage = @"Usage:
-/subscribe   - send inline keyboard
+/subscribe   - subscribe on CM events
 /unsubscribe - send custom keyboard
-/help    - send a photo
-/start  - request location or contact
+/me    - my information
 ";
 
                 await Bot.SendTextMessageAsync(message.Chat.Id, usage,
