@@ -61,11 +61,21 @@ namespace SDLWebBot
             {
                 await Bot.SendTextMessageAsync(message.Chat.Id, "https://youtu.be/TycIBC5pPv0");
             }
+            else if (message.Text.StartsWith("/install"))
+            {
+                await Bot.SendTextMessageAsync(message.Chat.Id, $"Not so fast :)");
+            }
+            else if (message.Text.StartsWith("/balance"))
+            {
+                await Bot.SendTextMessageAsync(message.Chat.Id, $"$400.00");
+            }
             else
             {
                 var usage = @"Usage:
 /subscribe   - subscribe on CM events
 /unsubscribe - unsubscribe on CM events
+/install - install new CM environment
+/balance - check your balance
 /me - my information
 /about - information about SDL
 ";
@@ -91,7 +101,6 @@ namespace SDLWebBot
             {
                 await Bot.SendTextMessageAsync(user.Key, message, replyMarkup: keyboard);
             }
-            users = new Dictionary<long, string>();
         }
     }
 }

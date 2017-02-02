@@ -9,6 +9,10 @@ namespace SDLWebBot.Controllers
 {
     public class BotController : ApiController
     {
+        public class PublicationModel {
+            public string TCMUri { get; set; }
+            public string URL { get; set; }
+        }
         // GET api/values
         public IEnumerable<string> Get()
         {
@@ -22,9 +26,9 @@ namespace SDLWebBot.Controllers
         }
 
         // POST api/values
-        public void Post([FromBody]string value)
+        public void Post(PublicationModel model)
         {
-            WebApiApplication.PulicationFinished(value);
+            WebApiApplication.PulicationFinished(model.URL);
         }
 
         // PUT api/values/5
