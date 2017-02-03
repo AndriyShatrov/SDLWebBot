@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Timers;
 using System.Web;
 using System.Web.Http;
@@ -12,6 +13,7 @@ using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using Tridion.ContentManager.CoreService.Client;
 
 namespace SDLWebBot
 {
@@ -117,8 +119,12 @@ namespace SDLWebBot
         private static async void BotOnCallbackQueryReceived(object sender, CallbackQueryEventArgs callbackQueryEventArgs)
         {
             string TCMUri = callbackQueryEventArgs.CallbackQuery.Data;
+            var client = new SessionAwareCoreServiceClient("wsHttp_201603");
+            client.ClientCredentials.Windows.ClientCredential = new NetworkCredential("srv-cmtask", "srv_tridion_cm", "global");
+            var instruction = new UnPublishInstructionData() { ResolveInstruction = new ResolveInstructionData() };
+            client.UnPublish(new[] { TCMUri }, instruction, new[] { "Purp1" }, null, new ReadOptions());
 
-           await Bot.AnswerCallbackQueryAsync(callbackQueryEventArgs.CallbackQuery.Id,$"Received {callbackQueryEventArgs.CallbackQuery.Data}", cacheTime:0);
+            await Bot.AnswerCallbackQueryAsync(callbackQueryEventArgs.CallbackQuery.Id,$"Received {callbackQueryEventArgs.CallbackQuery.Data}", cacheTime:0);
         }
     }
 

@@ -55,6 +55,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -113,6 +114,10 @@
     </Reference>
     <Reference Include="Telegram.Bot, Version=11.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Telegram.Bot.11.1.0-beta-3\lib\net45\Telegram.Bot.dll</HintPath>
+    </Reference>
+    <Reference Include="Tridion.ContentManager.CoreService.Client, Version=0.0.0.0, Culture=neutral, PublicKeyToken=ddfc895746e5ee6b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\client\CoreService\Tridion.ContentManager.CoreService.Client.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>

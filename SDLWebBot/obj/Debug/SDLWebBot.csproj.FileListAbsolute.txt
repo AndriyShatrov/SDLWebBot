@@ -148,3 +148,5 @@ C:\SDLWebBot\SDLWebBot\bin\Microsoft.AI.Web.xml
 C:\SDLWebBot\SDLWebBot\obj\Debug\SDLWebBot.csprojResolveAssemblyReference.cache
 C:\SDLWebBot\SDLWebBot\obj\Debug\SDLWebBot.dll
 C:\SDLWebBot\SDLWebBot\obj\Debug\SDLWebBot.pdb
+C:\SDLWebBot\SDLWebBot\bin\Tridion.ContentManager.CoreService.Client.dll
+C:\SDLWebBot\SDLWebBot\bin\Tridion.ContentManager.CoreService.Client.xml
