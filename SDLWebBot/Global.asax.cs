@@ -12,6 +12,7 @@ using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using Tridion.ContentManager;
 
 namespace SDLWebBot
 {
@@ -28,13 +29,25 @@ namespace SDLWebBot
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+            Bot.OnCallbackQuery += BotOnCallbackQueryReceived;
             Bot.OnMessage += BotOnMessageReceived;
             Bot.OnMessageEdited += BotOnMessageReceived;
+            //Bot.OnInlineQuery += BotOnInlineQueryReceived;
+            //Bot.OnInlineResultChosen += BotOnChosenInlineResultReceived;
             var me = Bot.GetMeAsync().Result;
 
             Bot.StartReceiving();
 
         }
+        //private static async void BotOnInlineQueryReceived(object sender, InlineQueryEventArgs inlineQueryEventArgs)
+        //{
+        //    Console.WriteLine($"Chosen: {inlineQueryEventArgs}");
+        //}
+        //private static void BotOnChosenInlineResultReceived(object sender, ChosenInlineResultEventArgs chosenInlineResultEventArgs)
+        //{
+        //    Console.WriteLine($"Received choosen inline result: {chosenInlineResultEventArgs.ChosenInlineResult.ResultId}");
+        //}
+
         private static async void BotOnMessageReceived(object sender, MessageEventArgs messageEventArgs)
         {
             var message = messageEventArgs.Message;
@@ -80,18 +93,18 @@ namespace SDLWebBot
 /about - information about SDL
 ";
 
-        await Bot.SendTextMessageAsync(message.Chat.Id, usage,
-                    replyMarkup: new ReplyKeyboardHide());
+                await Bot.SendTextMessageAsync(message.Chat.Id, usage,
+                            replyMarkup: new ReplyKeyboardHide());
             }
         }
 
-        public static async void PulicationFinished (string url)
+        public static async void PulicationFinished(string tcmUrl, string url)
         {
             var keyboard = new InlineKeyboardMarkup(new[]
                 {
                     new[] // first row
                     {
-                        new InlineKeyboardButton("UnPublish"),
+                        new InlineKeyboardButton("UnPublish", tcmUrl),
                         new InlineKeyboardButton("Share"),
                     }
                 });
@@ -102,5 +115,17 @@ namespace SDLWebBot
                 await Bot.SendTextMessageAsync(user.Key, message, replyMarkup: keyboard);
             }
         }
+        private static async void BotOnCallbackQueryReceived(object sender, CallbackQueryEventArgs callbackQueryEventArgs)
+        {
+            string TCMUri = callbackQueryEventArgs.CallbackQuery.Data;
+            if(TCMUri!= null)
+                using (Session session = new Session())
+                {
+                    session.GetObject(TCMUri).Delete();
+                }
+                
+           await Bot.AnswerCallbackQueryAsync(callbackQueryEventArgs.CallbackQuery.Id,$"Received {callbackQueryEventArgs.CallbackQuery.Data}", cacheTime:0);
+        }
     }
+
 }
