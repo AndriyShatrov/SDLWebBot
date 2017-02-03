@@ -12,7 +12,6 @@ using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
-using Tridion.ContentManager;
 
 namespace SDLWebBot
 {
@@ -118,12 +117,7 @@ namespace SDLWebBot
         private static async void BotOnCallbackQueryReceived(object sender, CallbackQueryEventArgs callbackQueryEventArgs)
         {
             string TCMUri = callbackQueryEventArgs.CallbackQuery.Data;
-            if(TCMUri!= null)
-                using (Session session = new Session())
-                {
-                    session.GetObject(TCMUri).Delete();
-                }
-                
+
            await Bot.AnswerCallbackQueryAsync(callbackQueryEventArgs.CallbackQuery.Id,$"Received {callbackQueryEventArgs.CallbackQuery.Data}", cacheTime:0);
         }
     }

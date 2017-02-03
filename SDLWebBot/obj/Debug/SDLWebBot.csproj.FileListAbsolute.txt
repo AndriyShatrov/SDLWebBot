@@ -125,9 +125,6 @@ C:\SDLWebBot\SDLWebBot\bin\System.Web.WebPages.Deployment.dll
 C:\SDLWebBot\SDLWebBot\bin\System.Web.WebPages.dll
 C:\SDLWebBot\SDLWebBot\bin\System.Web.WebPages.Razor.dll
 C:\SDLWebBot\SDLWebBot\bin\Telegram.Bot.dll
-C:\SDLWebBot\SDLWebBot\bin\Tridion.Common.dll
-C:\SDLWebBot\SDLWebBot\bin\Tridion.ContentManager.Common.dll
-C:\SDLWebBot\SDLWebBot\bin\Tridion.ContentManager.dll
 C:\SDLWebBot\SDLWebBot\bin\WebGrease.dll
 C:\SDLWebBot\SDLWebBot\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 C:\SDLWebBot\SDLWebBot\bin\Newtonsoft.Json.xml

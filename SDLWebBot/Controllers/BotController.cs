@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using Tridion.ContentManager;
 
 namespace SDLWebBot.Controllers
 {
@@ -17,13 +16,6 @@ namespace SDLWebBot.Controllers
         // GET api/values
         public IEnumerable<string> Get()
         {
-            string TCMUri = "sfdf";
-            if (TCMUri != null)
-                using (Session session = new Session())
-                {
-                    bool isExist = session.IsExistingObject(TCMUri);
-                }
-
 
             return new string[] { "value1", "value2" };
         }
