@@ -56,7 +56,9 @@ namespace SDLWebBot
 
             if (message.Text.StartsWith("/subscribe")) // send inline keyboard
             {
-                users.Add(message.Chat.Id, message.Chat.FirstName);
+                string user;
+                if (!users.TryGetValue(message.Chat.Id, out user))
+                    users.Add(message.Chat.Id, message.Chat.FirstName);
                 await Bot.SendChatActionAsync(message.Chat.Id, ChatAction.Typing);
                 await Bot.SendTextMessageAsync(message.Chat.Id, "Successfully subscribed");
             }
@@ -105,12 +107,43 @@ namespace SDLWebBot
                 {
                     new[] // first row
                     {
+                        new InlineKeyboardButton("Open in CME"),
                         new InlineKeyboardButton("UnPublish", tcmUrl),
-                        new InlineKeyboardButton("Share"),
                     }
                 });
-            var message = $@"Successfull published!
+            var message = $@"Successfully published!
 {url}";
+            foreach (var user in users)
+            {
+                await Bot.SendTextMessageAsync(user.Key, message, replyMarkup: keyboard);
+            }
+        }
+        public static async void ComponentUpdated(string tcmUrl, string url)
+        {
+            var keyboard = new InlineKeyboardMarkup(new[]
+                {
+                    new[] // first row
+                    {
+                        new InlineKeyboardButton("Publish"),
+                    }
+                });
+            var message = $@"Component {url} ({tcmUrl}) updated and should be published again!";
+            foreach (var user in users)
+            {
+                await Bot.SendTextMessageAsync(user.Key, message, replyMarkup: keyboard);
+            }
+        }
+        public static async void ComponentNeedTranslation(string tcmUrl, string url, string childTCMUri, string childTitle )
+        {
+            var keyboard = new InlineKeyboardMarkup(new[]
+                {
+                    new[] // first row
+                    {
+                        new InlineKeyboardButton("Go to translated component"),
+                    }
+                });
+            var message = $@"Component {url} ({tcmUrl}) updated. Don't forget to update its translations:
+{childTitle} ({childTCMUri})";
             foreach (var user in users)
             {
                 await Bot.SendTextMessageAsync(user.Key, message, replyMarkup: keyboard);
@@ -119,12 +152,16 @@ namespace SDLWebBot
         private static async void BotOnCallbackQueryReceived(object sender, CallbackQueryEventArgs callbackQueryEventArgs)
         {
             string TCMUri = callbackQueryEventArgs.CallbackQuery.Data;
-            var client = new SessionAwareCoreServiceClient("wsHttp_201603");
-            client.ClientCredentials.Windows.ClientCredential = new NetworkCredential("srv-cmtask", "srv_tridion_cm", "global");
-            var instruction = new UnPublishInstructionData() { ResolveInstruction = new ResolveInstructionData() };
-            client.UnPublish(new[] { TCMUri }, instruction, new[] { "Purp1" }, null, new ReadOptions());
-
-            await Bot.AnswerCallbackQueryAsync(callbackQueryEventArgs.CallbackQuery.Id,$"Received {callbackQueryEventArgs.CallbackQuery.Data}", cacheTime:0);
+            if (TCMUri != null)
+            {
+                var client = new SessionAwareCoreServiceClient("wsHttp_201603");
+                client.ClientCredentials.Windows.ClientCredential = new NetworkCredential("srv-cmtask", "srv_tridion_cm", "global");
+                var instruction = new UnPublishInstructionData() { ResolveInstruction = new ResolveInstructionData() };
+                var pt = client.UnPublish(new[] { TCMUri }, instruction, new[] { "purp1" }, null, new ReadOptions());
+                await Bot.AnswerCallbackQueryAsync(callbackQueryEventArgs.CallbackQuery.Id, $"Sucessfully unpublished {callbackQueryEventArgs.CallbackQuery.Data}", cacheTime: 0);
+            }
+            else
+                await Bot.AnswerCallbackQueryAsync(callbackQueryEventArgs.CallbackQuery.Id, $"Nothing", cacheTime: 0);
         }
     }
 
